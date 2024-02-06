@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "tutorial",
-	"version": "${version}",
+	"version": "1.1",
 	"name": "NoMoreJobless",
 	"description": "Minecraft Jobs Mod, with many quirks and twists!",
 	"authors": [
