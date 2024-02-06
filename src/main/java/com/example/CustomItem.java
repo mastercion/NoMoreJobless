@@ -12,6 +12,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -95,7 +96,9 @@ public class CustomItem extends Item {
                 playerEntity.playSound(SoundEvents.ITEM_CROP_PLANT, 1.0F, 1.0F); // Play saving position sound
 
                 if (!world.isClient) { // Ensure we are on the server side
-                    playerEntity.sendMessage(Text.literal("Position gespeichert A: " + pos.toShortString()).formatted(Formatting.GOLD), false);
+                    String messageKey = "message.position.saved";
+                    Text message = Text.translatable(messageKey, pos.toShortString());
+                    playerEntity.sendMessage(((MutableText) message).formatted(Formatting.GOLD), false);
                     ServerWorld serverWorld = (ServerWorld) world;
                 }
 
@@ -110,8 +113,10 @@ public class CustomItem extends Item {
                     if (!world.isClient) { // Ensure we are on the server side
                         ServerWorld serverWorld = (ServerWorld) world;
                         spawnTeleportParticles(savedPos, serverWorld);
-                        String message = "Du hast dein 1x Teleport benutzt. Das Item ist nun verschwunden";
-                        playerEntity.sendMessage(Text.literal(message).formatted(Formatting.RED), false);
+                        String messageKey = "message.teleport.used";
+                        Text message = Text.translatable(messageKey);
+                        playerEntity.sendMessage(((MutableText) message).formatted(Formatting.RED), false);
+
 
                         // Play the sound after teleporting to ensure it's heard at the new location
                         serverWorld.playSound(null, savedPos.getX() + 0.5, savedPos.getY(), savedPos.getZ() + 0.5, SoundEvents.ITEM_TRIDENT_RETURN, playerEntity.getSoundCategory(), 1.0F, 1.0F);
