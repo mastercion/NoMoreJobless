@@ -4,5 +4,8 @@
   "message.position.saved": "Position saved at: %s",
   "tooltip.custom_item.one": "Shift + Right Click to save Position",
   "tooltip.custom_item.two": "Right Click to Teleport (1x)",
-  "button.ui.job": "NoMoreJobless"
+  "button.customscreen.buttonone": "Show all SavedPos from any Player",
+  "button.customscreen.buttontwo": "Delete all SavedPos from anyone",
+  "category.modid.custom": "OneTimeTeleport",
+  "key.modid.open_custom_screen": "Amin OneTimeTeleport UI"
 }
