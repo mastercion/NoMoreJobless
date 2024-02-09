@@ -1,5 +1,8 @@
 {
   "item.example.custom_item": "One Time Teleport",
   "message.teleport.used": "You have used your 1x Teleport. The item is now gone.",
-  "message.position.saved": "Position saved at: %s"
+  "message.position.saved": "Position saved at: %s",
+  "tooltip.custom_item.one": "Shift + Right Click to save Position",
+  "tooltip.custom_item.two": "Right Click to Teleport (1x)",
+  "button.ui.job": "NoMoreJobless"
 }

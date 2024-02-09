@@ -1,4 +1,7 @@
 {
   "message.teleport.used": "Du hast dein 1x Teleport benutzt. Das Item ist nun verschwunden.",
-  "message.position.saved": "Position gespeichert bei: %s"
+  "message.position.saved": "Position gespeichert bei: %s",
+  "tooltip.custom_item.one": "Shift + Rechts Klick um Position zu speichern",
+  "tooltip.custom_item.two": "Rechts Klick um zu Teleportieren (1x)",
+  "button.ui.job": "NoMoreJobless"
 }

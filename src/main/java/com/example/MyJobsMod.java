@@ -3,15 +3,12 @@ package com.example;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,12 +21,6 @@ public class MyJobsMod implements ModInitializer {
 
 
 	private static final String CATEGORY = "examplemod.category";
-	private void openGUI() {
-		// Your code to open the GUI goes here
-		// For example:
-		// MinecraftClient.getInstance().setScreen(new YourGuiScreen());
-		System.out.println("Opening GUI...");
-	}
 
 	private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
 			.icon(() -> new ItemStack(CUSTOM_ITEM))

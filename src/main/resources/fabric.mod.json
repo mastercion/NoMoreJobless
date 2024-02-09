@@ -19,7 +19,7 @@
 			"com.example.MyJobsMod"
 		],
 		"client": [
-			"com.example.ExampleModClient"
+			"com.example.ModClient"
 		]
 	},
 	"mixins": [

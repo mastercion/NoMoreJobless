@@ -174,6 +174,18 @@ public class CustomItem extends Item {
                     0, 0, 0,
                     0.0);
         }
+        for (int i = 0; i < 20; i++) {
+            double offsetX = world.random.nextDouble() - 0.5;
+            double offsetY = world.random.nextDouble() * 2.0;
+            double offsetZ = world.random.nextDouble() - 0.5;
+            world.spawnParticles(ParticleTypes.ENCHANT,
+                    pos.getX() + 0.5 + offsetX,
+                    pos.getY() + 0.5 + offsetY,
+                    pos.getZ() + 0.5 + offsetZ,
+                    1,
+                    0, 0, 0,
+                    0.0);
+        }
     }
 
 
@@ -205,9 +217,9 @@ public class CustomItem extends Item {
     public void appendTooltip(ItemStack itemStack, World world, List<Text> tooltip, TooltipContext tooltipContext) {
 
         // default white text
-        tooltip.add(Text.translatable("Shift + Right Click to save Position").formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("tooltip.custom_item.one").formatted(Formatting.GRAY));
 
         // formatted red text
-        tooltip.add(Text.translatable("Right Click to Teleport (1x)").formatted(Formatting.GOLD));
+        tooltip.add(Text.translatable("tooltip.custom_item.two").formatted(Formatting.GOLD));
     }
 }
