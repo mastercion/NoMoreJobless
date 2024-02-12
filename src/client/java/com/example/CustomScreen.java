@@ -2,6 +2,7 @@ package com.example;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -10,11 +11,12 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.text.*;
 import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -25,7 +27,6 @@ import java.util.List;
 public class CustomScreen extends Screen implements CustomScreenInf {
     private ButtonWidget button1;
     private ButtonWidget button2;
-    private ButtonWidget button3;
 
     protected CustomScreen(MutableText customUi) {
         super(Text.literal("Custom UI"));
@@ -49,14 +50,18 @@ public class CustomScreen extends Screen implements CustomScreenInf {
                                 if (armorStand.hasCustomName() && armorStand.getCustomName().getString().startsWith("SavedPos_")) {
                                     // Fetching the ArmorStand's position
                                     BlockPos pos = armorStand.getBlockPos();
+                                    // Constructing the teleport command
                                     String command = "/tp @s " + pos.getX() + " " + pos.getY() + " " + pos.getZ();
-                                    String message = String.format("Click to teleport to %s at X:%d Y:%d Z:%d",
-                                            armorStand.getCustomName().getString(),
-                                            pos.getX(), pos.getY(), pos.getZ());
 
-                                    // Create a text component with click event for teleportation
-                                    Text teleportText = Text.literal(message).styled(style ->
-                                            style.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command))
+                                    // Creating the clickable and hoverable text components
+                                    Text teleportText = Text.literal("Click to teleport to ")
+                                            .formatted(Formatting.BLUE)
+                                            .append(Text.literal(armorStand.getCustomName().getString())
+                                                    .formatted(Formatting.BLUE))
+                                            .append(Text.literal(" at X:" + pos.getX() + " Y:" + pos.getY() + " Z:" + pos.getZ())
+                                                    .formatted(Formatting.GRAY))
+                                            .styled(style -> style
+                                                    .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command))
                                                     .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Teleport to ArmorStand"))));
 
                                     // Sending the clickable message to the player
@@ -71,37 +76,8 @@ public class CustomScreen extends Screen implements CustomScreenInf {
                 .tooltip(Tooltip.of(Text.literal("Prints all named armor stands starting with 'savedpos_'")))
                 .build();
 
-        // Inside your CustomScreen class' init method where you define button2
-        button2 = ButtonWidget.builder(Text.translatable("button.customscreen.buttontwo"), button -> {
-                    MinecraftClient client = MinecraftClient.getInstance();
-                    if (client.world != null) {
-                        List<Entity> entitiesToRemove = new ArrayList<>();
-                        for (Entity entity : client.world.getEntities()) {
-                            if (entity instanceof ArmorStandEntity) {
-                                ArmorStandEntity armorStand = (ArmorStandEntity) entity;
-                                if (armorStand.hasCustomName()) {
-                                    Text customName = armorStand.getCustomName();
-                                    if (customName != null && customName.getString().startsWith("SavedPos_")) {
-                                        entitiesToRemove.add(armorStand);
-                                    }
-                                }
-                            }
-                        }
-                        entitiesToRemove.forEach(entity -> {
-                            // On the client side, this won't work to actually remove entities in a normal game
-                            // For demonstration purposes only
-                            client.world.removeEntity(entity.getId(), Entity.RemovalReason.DISCARDED);
-                        });
-                    }
-                })
-                .position(this.width / 2 + 5, startY) // Adjust position as needed
-                .dimensions(200, 40, 200, 20) // Adjust dimensions as needed
-                .tooltip(Tooltip.of(Text.literal("Deletes all armor stands starting with 'SavedPos_'")))
-                .build();
-
         // Add buttons to the screen
         addDrawableChild(button1);
-        addDrawableChild(button2);
     }
 
     @Override

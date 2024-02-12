@@ -1,6 +1,7 @@
 package com.example;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -38,6 +39,11 @@ public class MyJobsMod implements ModInitializer {
 		Registry.register(Registries.ITEM, new Identifier("tutorial", "custom_item"), CUSTOM_ITEM);
 		Registry.register(Registries.ITEM_GROUP, new Identifier("tutorial", "test_group"), ITEM_GROUP);
 		BlockBreakEventListener.registerEvents();
+
+		CommandRegistrationCallback.EVENT.register((dispatcher, environment, registrationEnvironment) -> {
+			// The third parameter can be named according to what it represents, often it's a boolean indicating if it's a dedicated server.
+			DeleteArmorStandsCommand.register(dispatcher);
+		});
 
 
 		LOGGER.info("Hello Fabric world!");
